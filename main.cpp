@@ -15,8 +15,11 @@ int main(int argc, char *argv[])
     QFile jsonFile("/ecs/rpq/workspace/sp/system-config/cp5/ds/21/ARCHIVE.json");
     jsonFile.open(QIODevice::ReadOnly);
     QJsonDocument jsonDocument = QJsonDocument::fromJson(jsonFile.readAll());
-    QJsonValue value = QJsonPath::getValue(jsonDocument, a.arguments()[1].toStdString());
-
+    std::string path = a.arguments()[1].toStdString();
+    QJsonValue value = QJsonPath::getValue(jsonDocument, path);
+    qDebug() << value;
+    QJsonPath::setValue(jsonDocument, path, a.arguments()[2]);
+    value = QJsonPath::getValue(jsonDocument, path);
     qDebug() << value;
 
     return 0;
