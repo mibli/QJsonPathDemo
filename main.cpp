@@ -7,18 +7,28 @@
 #include <QDebug>
 #include "qjsonpath.h"
 
-
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
 
-    QFile jsonFile("/ecs/rpq/workspace/sp/system-config/cp5/ds/21/ARCHIVE.json");
+    QStringList args = a.arguments();
+    if (args.size() != 3)
+    {
+        throw std::logic_error("Need two arguments: PATH_TO_JSON PATH_TO_VALUE");
+    }
+
+    QFile jsonFile(args[1]);
     jsonFile.open(QIODevice::ReadOnly);
     QJsonDocument jsonDocument = QJsonDocument::fromJson(jsonFile.readAll());
-    QString path = a.arguments()[1];
+
+    QString path = args[2];
+
+    // prove that we can read a value
     QJsonValue value = QJsonPath::getValue(jsonDocument, path);
     qDebug() << value;
-    QJsonPath::setValue(jsonDocument, path, a.arguments()[2]);
+
+    // prove that we can write a value
+    QJsonPath::setValue(jsonDocument, path, "DUMMY");
     value = QJsonPath::getValue(jsonDocument, path);
     qDebug() << value;
 
