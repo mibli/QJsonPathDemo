@@ -1,0 +1,3 @@
+[submodule "qjsonpath"]
+	path = qjsonpath
+	url = https://github.com/mibli/QJsonPath.git
