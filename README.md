@@ -17,6 +17,7 @@ basically no references or pointers)
 ### Building the demo
 
 ```
+git submodule update --init
 mkdir build
 cd build
 qmake .. && make
